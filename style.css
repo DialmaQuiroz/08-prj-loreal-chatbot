@@ -7,8 +7,9 @@
 
 /* —— body + fonts —— */
 body {
-  font-family: "Montserrat", Arial, Helvetica, sans-serif;
-  color: #333;
+  font-family: "Helvetica Now", Helvetica, Arial, sans-serif;
+  color: #000000; /* L'Oreal Black */
+  background: #ffffff; /* L'Oreal White */
   display: flex;
   justify-content: center;
 }
@@ -16,6 +17,7 @@ body {
 .page-wrapper {
   width: 90%;
   max-width: 900px;
+  background: #ffffff; /* L'Oreal White */
 }
 
 /* header */
@@ -26,8 +28,10 @@ body {
 
 .site-title {
   font-size: 22px;
-  font-weight: 500;
+  font-weight: 700;
   margin-bottom: 10px;
+  color: #000000; /* L'Oreal Black */
+  letter-spacing: 1px;
 }
 
 /* chat window */
@@ -37,12 +41,12 @@ body {
 
 .chat-window {
   height: 360px;
-  border: 1px solid #000;
+  border: 2px solid #e3a535; /* L'Oreal Gold */
   padding: 20px;
   font-size: 18px;
   line-height: 1.5;
   overflow-y: auto;
-  background: #fafafa;
+  background: #ffffff; /* L'Oreal White */
   white-space: pre-line;
 }
 
@@ -53,11 +57,12 @@ body {
 }
 
 .msg.user {
-  color: #000;
+  color: #ff003b; /* L'Oreal Ref Red */
+  font-weight: 500;
 }
 
 .msg.ai {
-  color: #666666;
+  color: #000000; /* L'Oreal Black */
 }
 
 /* input row */
@@ -70,19 +75,21 @@ body {
 .chat-form input {
   flex: 1;
   padding: 12px;
-  border: 1px solid #ccc;
+  border: 1.5px solid #e3a535; /* L'Oreal Gold */
   font-size: 18px;
+  background: #ffffff; /* L'Oreal White */
+  color: #000000; /* L'Oreal Black */
 }
 
 .chat-form input:focus {
-  outline: 2px solid #000;
+  outline: 2px solid #ff003b; /* L'Oreal Ref Red */
   outline-offset: 2px;
 }
 
 .chat-form button {
   font-size: 18px;
-  background: #000;
-  color: #fff;
+  background: #000000; /* L'Oreal Black */
+  color: #e3a535; /* L'Oreal Gold */
   border: none;
   padding: 12px;
   width: 48px;
@@ -91,7 +98,8 @@ body {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: background 0.3s, color 0.3s;
+  border-radius: 8px;
 }
 
 .chat-form button .material-icons {
@@ -99,11 +107,12 @@ body {
 }
 
 .chat-form button:hover {
-  background: #666666;
+  background: #ff003b; /* L'Oreal Ref Red */
+  color: #ffffff; /* L'Oreal White */
 }
 
 .chat-form button:focus {
-  outline: 2px solid #000;
+  outline: 2px solid #e3a535; /* L'Oreal Gold */
   outline-offset: 2px;
 }
 
@@ -125,7 +134,7 @@ body {
   margin: 60px 0 40px;
   text-align: center;
   font-size: 14px;
-  color: #666;
+  color: #e3a535; /* L'Oreal Gold */
 }
 
 .site-footer nav {
@@ -134,10 +143,11 @@ body {
 
 .site-footer a {
   margin: 0 8px;
-  color: #000;
+  color: #ff003b; /* L'Oreal Ref Red */
   text-decoration: none;
+  font-weight: 500;
 }
 
 .site-footer a:hover {
-  color: #666666;
+  color: #e3a535; /* L'Oreal Gold */
 }
