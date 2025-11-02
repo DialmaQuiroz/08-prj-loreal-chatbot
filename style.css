@@ -82,6 +82,54 @@ body {
 }
 
 .chat-form input:focus {
+  #chat-container {
+    width: 100%;
+    max-width: 400px;
+    height: 400px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 10px;
+    overflow-y: auto;
+    background: #f9f9f9;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* User message bubble */
+  .user-bubble {
+    align-self: flex-end;
+    background: #007bff;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 15px 15px 0 15px;
+    margin: 5px 0;
+    max-width: 70%;
+    word-break: break-word;
+  }
+
+  /* Bot message bubble */
+  .bot-bubble {
+    align-self: flex-start;
+    background: #e0e0e0;
+    color: #333;
+    padding: 8px 12px;
+    border-radius: 15px 15px 15px 0;
+    margin: 5px 0;
+    max-width: 70%;
+    word-break: break-word;
+  }
+
+  /* User question display */
+  #user-question-display {
+    width: 100%;
+    max-width: 400px;
+    margin: 10px auto 0 auto;
+    font-weight: bold;
+    color: #007bff;
+    text-align: left;
+    min-height: 24px;
+  }
   outline: 2px solid #ff003b; /* L'Oreal Ref Red */
   outline-offset: 2px;
 }
