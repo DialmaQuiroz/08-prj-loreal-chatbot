@@ -34,6 +34,13 @@ body {
   letter-spacing: 1px;
 }
 
+.logo-img {
+  display: block;
+  max-width: 120px;
+  height: auto;
+  margin: 0 auto;
+}
+
 /* chat window */
 .chatbox {
   margin: 40px 0;
