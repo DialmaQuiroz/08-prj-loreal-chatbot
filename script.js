@@ -83,10 +83,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Get the AI reply from the API response
       const data = await response.json();
+      // Log the full response for debugging
+      console.log("Cloudflare Worker response:", data);
 
       // If the API returns an error, show it to the user
       if (data.error) {
-        // Show a readable error message for beginners
         let errorMsg =
           typeof data.error === "object"
             ? JSON.stringify(data.error)
@@ -98,12 +99,16 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      // Check if the API response has the expected structure
+      // The Cloudflare Worker wraps the OpenAI response inside 'data'
+      const aiData = data.data;
+
+      // Check if the AI response has the expected structure
       if (
-        !data.choices ||
-        !data.choices[0] ||
-        !data.choices[0].message ||
-        !data.choices[0].message.content
+        !aiData ||
+        !aiData.choices ||
+        !aiData.choices[0] ||
+        !aiData.choices[0].message ||
+        !aiData.choices[0].message.content
       ) {
         addMessageBubble(
           "Sorry, I didn't get a valid response from the AI. Please try again.",
@@ -112,15 +117,15 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      // The AI's reply is inside data.choices[0].message.content
-      const aiReply = data.choices[0].message.content.trim();
+      // The AI's reply is inside aiData.choices[0].message.content
+      const aiReply = aiData.choices[0].message.content.trim();
 
       // Add bot response to conversation history
       conversation.push({ role: "assistant", content: aiReply });
 
       // Remove loading indicator
       const loadingMsg = chatWindow.querySelector(".msg.ai:last-child");
-      if (loadingMsg && loadingMsg.textContent === "Thinking...🤔") {
+      if (loadingMsg && loadingMsg.textContent === "Thinking...\ud83e\udd14") {
         chatWindow.removeChild(loadingMsg);
       }
 
