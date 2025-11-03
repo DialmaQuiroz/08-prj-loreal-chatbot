@@ -46,23 +46,43 @@ body {
   font-size: 18px;
   line-height: 1.5;
   overflow-y: auto;
-  background: #ffffff; /* L'Oreal White */
+  background: #f5f6fa; /* Light dark background */
   white-space: pre-line;
+  display: flex;
+  flex-direction: column;
 }
 
 /* messages */
+
+/* Message bubbles for chat UI */
 .msg {
+  max-width: 70%;
+  padding: 12px 18px;
   margin-bottom: 14px;
+  border-radius: 22px;
+  font-size: 17px;
   line-height: 1.5;
+  word-break: break-word;
+  display: inline-block;
+  position: relative;
 }
 
+/* User message: right side, blue bubble */
 .msg.user {
-  color: #ff003b; /* L'Oreal Ref Red */
-  font-weight: 500;
+  align-self: flex-end;
+  background: #e3a535;
+  color: #fff;
+  border-bottom-right-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
+/* ChatBot message: left side, gray bubble */
 .msg.ai {
-  color: #000000; /* L'Oreal Black */
+  align-self: flex-start;
+  background: #e0e0e0;
+  color: #333;
+  border-bottom-left-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 /* input row */
@@ -111,7 +131,7 @@ body {
   /* Bot message bubble */
   .bot-bubble {
     align-self: flex-start;
-    background: #e0e0e0;
+    background: #ff003b;
     color: #333;
     padding: 8px 12px;
     border-radius: 15px 15px 15px 0;

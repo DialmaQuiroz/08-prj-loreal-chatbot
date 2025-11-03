@@ -28,14 +28,6 @@ document.addEventListener("DOMContentLoaded", () => {
     "😊 Hello! I'm here to help with all your L'Oreal beauty questions.",
   ];
 
-  // Conversation history for multi-turn context
-  const conversation = [
-    {
-      role: "system",
-      content:
-        "You are a friendly and helpful assistant who's an expert on L'Oreal products. You help people find the best skincare and haircare routines based on their needs. Your responses should be concise and informative. You also politely refuse to answer questions unrelated to L'Oreal products, routines, recommendations, beauty-related topics, makeup, or skincare related advice. You always refer to L'Oreal's official website for product details and avoid making up information. If you don't know the answer, you politely say you don't know and ask for more details about their skincare or haircare needs.",
-    },
-  ];
   // Helper function to add a message bubble to the chat window
   function addMessageBubble(content, sender) {
     // Create a new div for the message bubble
@@ -43,7 +35,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // Use CSS classes that match style.css
     bubble.classList.add("msg");
     bubble.classList.add(sender === "user" ? "user" : "ai");
-    bubble.textContent = content;
+    // Preserve line breaks and spacing for readability
+    bubble.innerHTML = content.replace(/\n/g, "<br>");
     chatWindow.appendChild(bubble);
     // Scroll to the bottom so latest message is visible
     chatWindow.scrollTop = chatWindow.scrollHeight;
@@ -59,6 +52,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Cloudflare Worker endpoint
   const workerUrl = "https://chatbot-worker.u1381801.workers.dev/";
+
+  // Conversation history for multi-turn context
+  const conversation = [
+    {
+      role: "system",
+      content:
+        "You are a friendly and helpful assistant who's an expert on L'Oreal products. You help people find the best skincare and haircare routines based on their needs. Your responses should be concise and informative. You also politely refuse to answer questions unrelated to L'Oreal products, routines, recommendations, beauty-related topics, makeup, or skincare related advice. You always refer to L'Oreal's official website for product details and avoid making up information. If you don't know the answer, you politely say you don't know and ask for more details about their skincare or haircare needs.",
+    },
+  ];
 
   // Async function to call the Cloudflare Worker with full conversation history
   async function callCloudflareWorker() {
@@ -82,6 +84,20 @@ document.addEventListener("DOMContentLoaded", () => {
       // Get the AI reply from the API response
       const data = await response.json();
 
+      // If the API returns an error, show it to the user
+      if (data.error) {
+        // Show a readable error message for beginners
+        let errorMsg =
+          typeof data.error === "object"
+            ? JSON.stringify(data.error)
+            : data.error;
+        addMessageBubble(
+          `Sorry, there was an error with the AI: ${errorMsg}`,
+          "bot"
+        );
+        return;
+      }
+
       // Check if the API response has the expected structure
       if (
         !data.choices ||
@@ -103,16 +119,16 @@ document.addEventListener("DOMContentLoaded", () => {
       conversation.push({ role: "assistant", content: aiReply });
 
       // Remove loading indicator
-      const loadingMsg = chatWindow.querySelector(".bot-bubble:last-child");
+      const loadingMsg = chatWindow.querySelector(".msg.ai:last-child");
       if (loadingMsg && loadingMsg.textContent === "Thinking...🤔") {
         chatWindow.removeChild(loadingMsg);
       }
 
-      // Show AI response
+      // Show AI response with preserved line breaks
       addMessageBubble(aiReply, "bot");
     } catch (error) {
       // Remove loading indicator
-      const loadingMsg = chatWindow.querySelector(".bot-bubble:last-child");
+      const loadingMsg = chatWindow.querySelector(".msg.ai:last-child");
       if (loadingMsg && loadingMsg.textContent === "Thinking...🤔") {
         chatWindow.removeChild(loadingMsg);
       }
