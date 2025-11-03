@@ -1,5 +1,4 @@
-// IMPORTANT: You must set your OpenAI API key as a secret named OPENAI_API_KEY
-// In the Cloudflare dashboard, go to your Worker > Settings > Add Secret > Name: OPENAI_API_KEY > Value: your-api-key
+// Copy this code into your Cloudflare Worker script
 
 export default {
   async fetch(request, env) {
@@ -15,18 +14,7 @@ export default {
       return new Response(null, { headers: corsHeaders });
     }
 
-    // Check if API key is set
-    if (!env.OPENAI_API_KEY) {
-      return new Response(
-        JSON.stringify({
-          error:
-            "Missing OpenAI API key. Please set the OPENAI_API_KEY secret in your Cloudflare Worker settings.",
-        }),
-        { headers: corsHeaders, status: 400 }
-      );
-    }
-
-    const apiKey = env.OPENAI_API_KEY;
+    const apiKey = env.OPENAI_API_KEY; // Make sure to name your secret OPENAI_API_KEY in the Cloudflare Workers dashboard
     const apiUrl = "https://api.openai.com/v1/chat/completions";
     const userInput = await request.json();
 
@@ -45,8 +33,30 @@ export default {
       body: JSON.stringify(requestBody),
     });
 
-    const data = await response.json();
+    let data;
+    let status = response.status;
+    let statusText = response.statusText;
+    let text;
+    try {
+      text = await response.text();
+      if (text) {
+        data = JSON.parse(text);
+      } else {
+        data = null;
+      }
+    } catch (e) {
+      // If JSON parsing fails, return error info
+      data = { error: "Invalid JSON response", details: e.message };
+    }
 
-    return new Response(JSON.stringify(data), { headers: corsHeaders });
+    // Add response status and body to output for debugging
+    const debugOutput = {
+      status,
+      statusText,
+      body: text,
+      data,
+    };
+
+    return new Response(JSON.stringify(debugOutput), { headers: corsHeaders });
   },
 };
